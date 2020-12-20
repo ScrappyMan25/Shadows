@@ -1,0 +1,118 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Button_Door.gd" type="Script" id=1]
+[ext_resource path="res://Assets/green_btn.png" type="Texture" id=2]
+[ext_resource path="res://Assets/red_btn.png" type="Texture" id=3]
+[ext_resource path="res://Assets/blue_btn.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Btn_sfx.wav" type="AudioStream" id=5]
+[ext_resource path="res://Assets/spot.png" type="Texture" id=6]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8, 8 )
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [  ],
+"loop": false,
+"name": "default",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": false,
+"name": "Red",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": false,
+"name": "Blue",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": false,
+"name": "Green",
+"speed": 1.0
+} ]
+
+[sub_resource type="DynamicFontData" id=3]
+font_path = "res://Assets/space age.ttf"
+
+[sub_resource type="DynamicFont" id=4]
+size = 20
+font_data = SubResource( 3 )
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [  ],
+"loop": false,
+"name": "default",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": false,
+"name": "Red",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": false,
+"name": "Blue",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": false,
+"name": "Green",
+"speed": 1.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 64, 10 )
+
+[node name="Button_Door" type="Node"]
+script = ExtResource( 1 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+volume_db = -25.25
+
+[node name="Button" type="Area2D" parent="."]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Button"]
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Button"]
+frames = SubResource( 2 )
+animation = "Green"
+
+[node name="Label" type="Label" parent="Button/AnimatedSprite"]
+margin_left = -32.0
+margin_top = -8.0
+margin_right = 35.0
+margin_bottom = 11.0
+custom_fonts/font = SubResource( 4 )
+text = "OFF"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Light2D" type="Light2D" parent="Button"]
+texture = ExtResource( 6 )
+color = Color( 0.74902, 0.0627451, 0.0627451, 1 )
+
+[node name="Door" type="StaticBody2D" parent="."]
+position = Vector2( 0, 80 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Door"]
+scale = Vector2( 2, 0.3 )
+frames = SubResource( 5 )
+animation = "Green"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door"]
+shape = SubResource( 6 )
+[connection signal="body_entered" from="Button" to="." method="_on_Button_body_entered"]
+[connection signal="body_exited" from="Button" to="." method="_on_Button_body_exited"]

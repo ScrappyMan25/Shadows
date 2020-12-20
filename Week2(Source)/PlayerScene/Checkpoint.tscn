@@ -1,0 +1,63 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Assets/blue_btn.png" type="Texture" id=1]
+[ext_resource path="res://Assets/green_btn.png" type="Texture" id=2]
+[ext_resource path="res://PlayerScene/Checkpoint.gd" type="Script" id=3]
+[ext_resource path="res://Assets/cp_sfx 2.wav" type="AudioStream" id=4]
+[ext_resource path="res://Assets/spot.png" type="Texture" id=5]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": false,
+"name": "Set",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": false,
+"name": "ReSet",
+"speed": 1.0
+} ]
+
+[sub_resource type="DynamicFontData" id=2]
+font_path = "res://Assets/ThaleahFat.ttf"
+
+[sub_resource type="DynamicFont" id=3]
+size = 65
+font_data = SubResource( 2 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 32, 32 )
+
+[node name="Checkpoint" type="Area2D"]
+script = ExtResource( 3 )
+
+[node name="Light2D" type="Light2D" parent="."]
+visible = false
+texture = ExtResource( 5 )
+color = Color( 0.0196078, 0.898039, 0.988235, 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+animation = "ReSet"
+
+[node name="Label" type="Label" parent="AnimatedSprite"]
+margin_left = -32.0
+margin_top = -32.0
+margin_right = 32.0
+margin_bottom = 32.0
+custom_fonts/font = SubResource( 3 )
+text = "?"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 4 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -25.0
+[connection signal="body_entered" from="." to="." method="_on_Area2D_body_entered"]
